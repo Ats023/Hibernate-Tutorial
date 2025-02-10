@@ -1,9 +1,14 @@
 package com.ats;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Employee {
@@ -13,6 +18,12 @@ public class Employee {
     private String firstName;
     private String lastName;
     private Integer salary;
+
+    @ManyToMany()
+    private Set<Project> projects;
+
+    @ManyToOne() 
+    private Department dept;
 
     // public Employee(String firstName, String lastName, Integer salary) {
     //     this.firstName = firstName;
@@ -32,8 +43,29 @@ public class Employee {
         return lastName;
     }
 
+    public void setProjects(Set<Project> projects) {
+        this.projects = projects;
+    }
+
+    public Department getDept() {
+        return dept;
+    }
+
+    public void setDept(Department dept) {
+        this.dept = dept;
+    }
+
     public Integer getSalary() {
         return salary;
+    }
+
+    public Set<Project> getProjects() {
+        return projects==null? new HashSet<Project>():projects;
+    }
+
+    public void addProjectToEmployee(Project p) {
+        projects = projects==null?new HashSet<Project>():projects;
+        projects.add(p);
     }
 
     public void setFirstName(String firstName) {
